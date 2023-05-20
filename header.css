@@ -1,0 +1,139 @@
+header {
+    position: relative;
+    width: 100%;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.gnav2 {
+    display: none;
+}
+
+.gnav{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: 0;
+    margin: auto;
+    width: 90%;
+    height: 70px;
+    align-items: center;
+    padding: 0 5%;
+    background-color: transparent;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    transition: all .5s ease;
+}
+
+.fixed{
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    transition: all .5s ease;
+}
+
+.gnav ul{
+ display: flex;
+ justify-content: space-between;
+ list-style: none;
+}
+
+.gnav a {
+    color: white;
+}
+
+.gnav ul li {
+    width: 150px;
+    color: white;
+    text-align: center;
+}
+
+#modal01 {
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+}
+
+#modal01.modal02{
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (min-width:0) and (max-width:896px){
+    header nav{
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        top: 0;
+        margin: auto;
+        width: 90%;
+        height: 70px;
+        align-items: center;
+        padding: 0 5%;
+        background-color: transparent;
+        flex-wrap: wrap;
+        padding-top: 15px;
+        transition: all .5s ease;
+    }
+
+    .gnav {
+        display: none;
+    }
+
+    .gnav2{
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        top: 0;
+        margin: auto;
+        width: 90%;
+        height: 70px;
+        align-items: center;
+        padding: 0 5%;
+        background-color: transparent;
+        flex-wrap: wrap;
+        padding-top: 15px;
+        transition: all .5s ease;
+    }
+
+    #toggle img {
+        height: 64px;
+        opacity: 0.8;
+        object-fit: cover;
+    }
+
+    .fixed{
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 2;
+        position: fixed;
+        top: 0;
+        transform: all .5s ease;
+    }
+
+    #menu {
+        display: block;
+        z-index: 2;
+        position: fixed;
+        right: 20px;
+        width: 200px;
+        color: black;
+        background-color: white;
+        border-radius: 8px;
+    }
+
+
+
+    #page-link02{
+        list-style: none;
+    }
+
+    #page-link02 li{
+        height: 50px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+    }
+}

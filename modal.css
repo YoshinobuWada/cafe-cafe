@@ -1,0 +1,92 @@
+#signin {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signinbox01{
+    z-index: 11;
+    width: 40%;
+    background-color: white;
+    border-radius: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+    transform: translateY(30px);
+}
+
+.signinbox01.signinbox02{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.signinbox01 h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.signinbox01 dl {
+    padding: 20px;
+}
+
+.signinbox01 dd {
+    padding: 5px 0;
+}
+
+.signinbox01 dd input {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 10px 2.5px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+#sosin {
+    color: white;
+    background-color: red;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 10px 2.5px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.signinbox01 .sns {
+    border-width: 90%;
+    border-top: 1px solid #ccc;
+}
+
+.signinbox01 .sns dd button {
+    color: black;
+    width: 100%;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 1.2rem;
+    padding: 10px 2.5px;
+}
+
+.signinbox01 .sns dd img {
+    width: 1.5rem;
+}
+
+@media (min-width:0) and (max-width:896px){
+    .signinbox01{
+        z-index: 11;
+        width: 60%;
+        background-color: white;
+        border-radius: 12px;
+    }
+
+}

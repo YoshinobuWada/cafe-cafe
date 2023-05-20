@@ -1,0 +1,244 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.hoverlink:hover {
+    opacity: 0.5;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.wrap{
+    padding: 0 5%;
+}
+
+.alert{
+    z-index: 1;
+    background-color: black;
+    text-align: center;
+    padding: 18px;
+    color: white;
+    font-size: 14px;
+}
+
+.alert a{
+    text-decoration: underline;
+    color: white;
+}
+
+header {
+    position: relative;
+    min-height: 680px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-image: url(./cafe/img/eyecatch.jpg);
+    background-color: rgba(255, 255, 255, 0.2);
+    background-blend-mode: lighten;
+}
+
+.tema{
+    font-size: 64px;
+    line-height: 64px;
+    font-weight: bold;
+    color: white;
+    width: 90%;
+    margin: auto;
+    position: absolute;
+    top: 250px;
+    left: 5%;
+}
+
+
+.acsess {
+    margin: 40px 0;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.acsessbox1 {
+    display: flex;
+    padding: 10px 0;
+    width: 25%;
+}
+
+.acsessbox1 img{
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+}
+
+.acsessbox2 {
+    padding: 5px 15px;
+}
+
+.area{
+    font-weight: bold;
+}
+
+.distance{
+    font-weight: bold;
+}
+
+.locationbox1{
+    display: flex;
+    justify-content: space-between;
+}
+
+.locationbox2 {
+    padding: 10px 0;
+    width: 24%;
+}
+
+.locationbox2 img{
+    width: 100%;
+    height: 84%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.GoToEats{
+    margin-top: 40px;
+    opacity: 0.9;
+    position: relative;
+}
+
+.GoToEats img{
+    width: 100%;
+    border-radius: 16px;
+}
+
+.goto{
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.makecaffe {
+    margin: 40px 0;
+    padding: 40px 0;
+    background-color: black;
+    color: white;
+}
+
+.makecaffebox1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.makecaffebox2 {
+    margin-top: 30px;
+    width: 30%;
+}
+
+.makecaffebox2 img {
+    width: 100%;
+    height: 82%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.makecaffemidasi {
+    font-size: large;
+    font-weight: bold;
+}
+
+.host {
+    margin: 40px 0;
+}
+
+.hostbox1{
+    display: flex;
+    justify-content: space-between;
+}
+
+.hostbox2{
+    width: 32%;
+}
+
+.hostbox2 img{
+    width: 100%;
+    height: 86%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.hostbox2 p {
+    font-size: large;
+    font-weight: bold;
+}
+
+.pagetop {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    color: white;
+    background-color: black;
+    padding: 0 10px;
+    width: 100px;
+    height: 50px;
+    line-height: 3;
+    transform: translateY(50px);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.is-fadein {
+    transform: translateY(0);
+    transition: 0.5s;
+}
+
+@media (max-width:896px){
+    #menu{
+        top: 140px;
+    }
+
+    .acsessbox1 {
+        display: flex;
+        padding: 10px 0;
+        width: 50%;
+    }
+
+    .locationbox1{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .locationbox2 {
+        padding: 10px 0;
+        width: 45%;
+    }
+
+
+    .GoToEats{
+        margin-top: 40px;
+        opacity: 1;
+        position: static;
+        display: block;
+    }
+    
+    .GoToEats img{
+        width: 100%;
+        border-radius: 16px;
+        display: block;
+    }
+
+    .goto{
+        position: static;
+        padding: 10px;
+        display: block;
+    }
+
+}
