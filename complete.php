@@ -33,6 +33,6 @@ echo date('Y年m月d日 H時i分')?>;</p>
         <p><?php echo nl2br($_SESSION['naiyou']) ?></p>
         <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
 
-        <a href="toiawase.php">トップへ戻る</a>
+        <a href="index.php">トップへ戻る</a>
     </div>
 </form>

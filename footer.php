@@ -44,8 +44,6 @@
                 </ul>
             </div>
         </div>
-
-
         <div class="hogo">
             <p>このサイトの素材は全て著作権フリーのものを使用しています。</p>
             <ul class="footerlist">

@@ -19,7 +19,7 @@ if (isset($_POST['back']) && $_POST['back']) {
     }
     $_SESSION['hurigana'] = htmlspecialchars($_POST['hurigana'], ENT_QUOTES);
 
-    if (!ctype_digit($_POST['dial'])) {
+    if (!ctype_digit($_POST['dial']) && !($_POST['dial']) == '') {
         $errmessage[] = "電話番号が不正です";
     }
     $_SESSION['dial'] = htmlspecialchars($_POST['dial'], ENT_QUOTES);
@@ -85,14 +85,14 @@ if (isset($_POST['back']) && $_POST['back']) {
                         <dl>
                             <dt>
                                 <label for="name">氏名<span>*</span></label>
-                                <p class="is-error-name"></p>
+                                <p class="is-error-name error"></p>
                             </dt>
                             <dd>
                                 <input type="text" name="name" placeholder="山田太郎" value="<?php echo $_SESSION['name'] ?>">
                             </dd>
                             <dt>
                                 <label for="hurigana">フリガナ<span>*</span></label>
-                                <p class="is-error-hurigana"></p>
+                                <p class="is-error-hurigana error"></p>
                             </dt>
                             <dd>
                                 <input type="text" name="hurigana" placeholder="ヤマダタロウ"
@@ -100,7 +100,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dd>
                             <dt>
                                 <label for="dial">電話番号</label>
-                                <p class="is-error-dial"></p>
+                                <p class="is-error-dial error"></p>
                             </dt>
                             <dd>
                                 <input type="number" name="dial" placeholder="09012345678"
@@ -108,7 +108,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dd>
                             <dt>
                                 <label for="email">メールアドレス<span>*</span></label>
-                                <p class="is-error-email"></p>
+                                <p class="is-error-email error"></p>
                             </dt>
                             <dd>
                                 <input type="text" name="email" placeholder="test@test.co.jp"
@@ -120,7 +120,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                         <h3>お問い合わせ内容をご記入ください<span>*</span></h3>
                         <dl class="naiyodl">
                             <dd>
-                                <p class="is-error-naiyou"></p>
+                                <p class="is-error-naiyou error"></p>
                                 <textarea name="naiyou" id="naiyou"><?php echo $_SESSION['naiyou'] ?></textarea>
                             </dd>
                             <dd>

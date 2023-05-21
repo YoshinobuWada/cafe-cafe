@@ -29,6 +29,10 @@ label span{
     color: red;
 }
 
+.error {
+    font-weight: bold;
+}
+
 header {
     background-color: rgba(0, 0, 0, 0.8);
     max-height: 85px;
