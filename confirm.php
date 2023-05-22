@@ -15,31 +15,31 @@ if(!strstr($referer, $url)){
                 <label for="name">氏名</label>
             </dt>
             <dd>
-                <?php echo $_SESSION['name'] ?>
+                <?php echo $_SESSION['name']; ?>
             </dd>
             <dt>
                 <label for="hurigana">フリガナ</label>
             </dt>
             <dd>
-                <?php echo $_SESSION['hurigana'] ?>
+                <?php echo $_SESSION['hurigana']; ?>
             </dd>
             <dt>
                 <label for="dial">電話番号</label>
             </dt>
             <dd>
-                <?php echo $_SESSION['dial'] ?>
+                <?php echo nl2br($_SESSION['dial']); ?>
             </dd>
             <dt>
                 <label for="email">メールアドレス</label>
             </dt>
             <dd>
-                <?php echo $_SESSION['email'] ?>
+                <?php echo nl2br($_SESSION['email']); ?>
             </dd>
             <dt>
                 <label for="naiyou">お問い合わせ内容</label>
             </dt>
             <dd>
-                <?php echo nl2br($_SESSION['naiyou']) ?>
+                <?php echo nl2br($_SESSION['naiyou']); ?>
             </dd>
         </dl>
         <div class="button">

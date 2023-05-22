@@ -95,6 +95,7 @@ header h1 {
     font-size: 1.2rem;
     border-radius: 8px;
     border: 1px solid #aaa;
+    padding: 5px;
 }
 
 .endtext {
@@ -190,8 +191,10 @@ header h1 {
 }
 
 #checkdl dd {
+    width: 54rem;
     margin-left: 5px;
     padding: 1%;
+    word-break: break-all;
 }
 
 @media (min-width:0) and (max-width:896px){
