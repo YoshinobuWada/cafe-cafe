@@ -30,6 +30,7 @@ label span{
 }
 
 .error {
+    color: red;
     font-weight: bold;
 }
 

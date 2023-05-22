@@ -2,42 +2,57 @@
 session_start();
 $mode = 'input';
 $errmessage = array();
+$a = null;
+$b = null;
+$c = null;
+$d = null;
+$e = null;
 if (isset($_POST['back']) && $_POST['back']) {
 
 } else if (isset($_POST['confirm']) && $_POST['confirm']) {
     if (!$_POST['name']) {
         $errmessage[] = "名前を入力してください";
+        $a = 1;
+
     } else if (mb_strlen($_POST['name']) >= 10) {
         $errmessage[] = "名前は10文字以内にしてください";
+        $a = 1;
     }
     $_SESSION['name'] = htmlspecialchars($_POST['name'], ENT_QUOTES);
 
     if (!$_POST['hurigana']) {
         $errmessage[] = "フリガナを入力してください";
+        $b = 2;
     } else if (mb_strlen($_POST['name']) >= 10) {
         $errmessage[] = "フリガナは10文字以内にしてください";
+        $b = 2;
     }
     $_SESSION['hurigana'] = htmlspecialchars($_POST['hurigana'], ENT_QUOTES);
 
     if (!ctype_digit($_POST['dial']) && !($_POST['dial']) == '') {
         $errmessage[] = "電話番号が不正です";
+        $c = 3;
     }
     $_SESSION['dial'] = htmlspecialchars($_POST['dial'], ENT_QUOTES);
 
     if (!$_POST['email']) {
         $errmessage[] = "メールアドレスを入力してください";
+        $d = 4;
     } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $errmessage[] = "メールアドレスが不正です";
+        $d = 4;
     }
     $_SESSION['email'] = htmlspecialchars($_POST['email'], ENT_QUOTES);
 
     if (!$_POST['naiyou']) {
         $errmessage[] = "お問い合わせ内容を入力してください";
+        $e = 5;
     }
     $_SESSION['naiyou'] = htmlspecialchars($_POST['naiyou'], ENT_QUOTES);
 
     if ($errmessage) {
         $mode = 'input';
+        $x = implode('\n', $errmessage);
     } else {
         $mode = 'confirm';
     }
@@ -50,7 +65,6 @@ if (isset($_POST['back']) && $_POST['back']) {
     $_SESSION['email'] = "";
     $_SESSION['naiyou'] = "";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -76,42 +90,55 @@ if (isset($_POST['back']) && $_POST['back']) {
                         <p>送信頂いた件につきましては、当社より折り返しご連絡差し上げます。</p>
                         <p>なお、ご連絡までに、お時間を頂く場合もございますので予めご了承ください。</p>
                         <p><span>*</span>は必須項目となります。</p>
-                        <div class="errorMsg"></div>
-                        <?php 
-                            if( $errmessage ){
-                                echo implode('<br>', $errmessage);
-                            }
-                        ?>
+                        <div>
+                        </div>
+
                         <dl>
                             <dt>
                                 <label for="name">氏名<span>*</span></label>
-                                <p class="is-error-name error"></p>
+                                <p class="error">
+                                    <?php if ($a == 1) {
+                                        echo "名前は必須入力です。名前は10文字以内でご入力ください。";
+                                    } ?>
+                                </p>
                             </dt>
                             <dd>
-                                <input type="text" name="name" placeholder="山田太郎" value="<?php echo $_SESSION['name'] ?>">
+                                <input type="text" name="name" id="name" placeholder="山田太郎" value="<?php echo $_SESSION['name'] ?>">
                             </dd>
                             <dt>
                                 <label for="hurigana">フリガナ<span>*</span></label>
-                                <p class="is-error-hurigana error"></p>
+                                <p class="error">
+                                    <?php if ($b == 2) {
+                                        echo "フリガナは必須入力です。フリガナは10文字以内でご入力ください。";
+                                    } ?>
+                                </p>
                             </dt>
                             <dd>
-                                <input type="text" name="hurigana" placeholder="ヤマダタロウ"
+                                <input type="text" name="hurigana" id="hurigana" placeholder="ヤマダタロウ"
                                     value="<?php echo $_SESSION['hurigana'] ?>">
                             </dd>
                             <dt>
                                 <label for="dial">電話番号</label>
-                                <p class="is-error-dial error"></p>
+                                <p class="error">
+                                    <?php if ($c == 3) {
+                                        echo "電話番号は0-9の数字のみでご入力ください";
+                                    } ?>
+                                </p>
                             </dt>
                             <dd>
-                                <input type="number" name="dial" placeholder="09012345678"
+                                <input type="number" name="dial" id="dial" placeholder="09012345678"
                                     value="<?php echo $_SESSION['dial'] ?>">
                             </dd>
                             <dt>
                                 <label for="email">メールアドレス<span>*</span></label>
-                                <p class="is-error-email error"></p>
+                                <p class="error">
+                                    <?php if ($d == 4) {
+                                        echo "メールアドレスは正しくご入力ください";
+                                    } ?>
+                                </p>
                             </dt>
                             <dd>
-                                <input type="text" name="email" placeholder="test@test.co.jp"
+                                <input type="text" name="email" id="email" placeholder="test@test.co.jp"
                                     value="<?php echo $_SESSION['email'] ?>">
                             </dd>
                         </dl>
@@ -120,7 +147,11 @@ if (isset($_POST['back']) && $_POST['back']) {
                         <h3>お問い合わせ内容をご記入ください<span>*</span></h3>
                         <dl class="naiyodl">
                             <dd>
-                                <p class="is-error-naiyou error"></p>
+                                <p class="error">
+                                    <?php if ($e == 5) {
+                                        echo "お問い合わせ内容は必須入力です。";
+                                    } ?>
+                                </p>
                                 <textarea name="naiyou" id="naiyou"><?php echo $_SESSION['naiyou'] ?></textarea>
                             </dd>
                             <dd>
@@ -162,53 +193,36 @@ if (isset($_POST['back']) && $_POST['back']) {
                     $('.signinbox01').removeClass('signinbox02');
                 }
             });
-            $('#vali').validate({
-                rules: {
-                    name: {
-                        required: true,
-                        maxlength: 10,
-                    },
-                    hurigana: {
-                        required: true,
-                        maxlength: 10,
-                    },
-                    dial: {
-                        number: true,
-                    },
-                    email: {
-                        required: true,
-                        email: true,
-                    },
-                    naiyou: {
-                        required: true,
-                    }
-                },
-                messages: {
-                    name: {
-                        required: '名前は必須入力です。10文字以内で入力してください。',
-                        maxlength: '名前は必須入力です。10文字以内で入力してください。',
-                    },
-                    hurigana: {
-                        required: 'フリガナは必須入力です。10文字以内で入力してください。',
-                        maxlength: 'フリガナは必須入力です。10文字以内で入力してください。',
-                    },
-                    dial: {
-                        number: '電話番号は0-9の数字のみで入力してください',
-                    },
-                    email: {
-                        required: 'メールアドレスを入力してください',
-                        email: 'メールアドレスの形式で入力してください',
-                    },
-                    naiyou: {
-                        required: 'お問い合わせ内容を入力してください',
-                    },
-                },
-                errorPlacement: function (error, element) {
-                    var name = element.attr('name');
-                    error.appendTo($('.is-error-' + name));
-                },
-                errorElement: "span",
-                errorClass: "is-error",
+            $('#sosin01').click(function () {
+                var error;
+                var error_result = new Array();
+
+                if ($('#name').val() === '' || $('#name').val().length >= 10) {
+                    var error = 1;
+                    error_result.push('氏名は必須入力です。10文字以内でご入力ください。');
+                }
+                if ($('#hurigana').val() === '' || $('#hurigana').val().length >= 10) {
+                    var error = 1;
+                    error_result.push('フリガナは必須入力です。10文字以内でご入力ください。');
+                }
+                if ($('#dial').val() == [0-9]) {
+                    var error = 1;
+                    error_result.push('電話番号は0-9の数字のみでご入力ください');
+                }
+                if ($('#email').val() === '' || !$('#email').val() == /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}.[A-Za-z0-9]{1,}$/) {
+                    var error = 1;
+                    error_result.push('メールアドレスは正しくご入力ください');
+                }
+                if ($('#naiyou').val() === '') {
+                    var error = 1;
+                    error_result.push('お問い合わせ内容は必須入力です。');
+                }
+
+                if (error) {
+                    var error_result = error_result.join('\n');
+                    alert(error_result);
+                }
+
             });
         });
     </script>

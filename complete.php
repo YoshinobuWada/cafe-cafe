@@ -8,11 +8,11 @@ if (!strstr($referer, $url)) {
 ?>
 <form action="contact.php" method="post">
     <div class="endtext">
-        <p>件名：【<?php echo $_SESSION['name'] ?>】お問い合わせありがとうございます。</p>
+        <p>件名：【<?php echo $_SESSION['name']; ?>】お問い合わせありがとうございます。</p>
 
         <p>※このメールはシステムからの自動返信です。</p>
 
-        <p><?php echo $_SESSION['name'] ?>様</p>
+        <p><?php echo $_SESSION['name']; ?>様</p>
 
         <p>お世話になっております。</p>
         <p>JOBPOPへのお問い合わせありがとうございました。</p>
@@ -22,10 +22,10 @@ if (!strstr($referer, $url)) {
         <p>今しばらくお待ちくださいませ。
 
         <p>━━━━━━***　お問い合わせ内容　***━━━━━━</p>
-        <p>お名前：<?php echo $_SESSION['name'] ?></p>
-        <p>フリガナ：<?php echo $_SESSION['hurigana'] ?></p>
-        <p>E-Mail：<?php echo $_SESSION['email'] ?></p>
-        <p>電話番号：<?php echo $_SESSION['dial'] ?></p>
+        <p>お名前：<?php echo $_SESSION['name']; ?></p>
+        <p>フリガナ：<?php echo $_SESSION['hurigana']; ?></p>
+        <p>E-Mail：<?php echo $_SESSION['email']; ?></p>
+        <p>電話番号：<?php echo $_SESSION['dial']; ?></p>
 
         <p>お問い合せ日時：<?php date_default_timezone_set('Asia/Tokyo');
 echo date('Y年m月d日 H時i分')?>;</p>
