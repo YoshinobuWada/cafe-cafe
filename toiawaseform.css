@@ -175,7 +175,7 @@ header h1 {
 
 #sosin01 {
     color: white;
-    background-color: red;
+    background-color: rgb(215, 4, 102);
     width: 101%;
     padding: 8px 0;
     font-size: 1.2rem;
@@ -192,7 +192,7 @@ header h1 {
 
 #sosin02 {
     color: white;
-    background-color: red;
+    background-color: rgb(215, 4, 102);
     width: 48%;
     padding: 8px 0;
     font-size: 1.2rem;
