@@ -38,7 +38,7 @@ if (isset($_POST['back']) && $_POST['back']) {
     if (!$_POST['email']) {
         $errmessage[] = "メールアドレスを入力してください";
         $d = 4;
-    } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    } else if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/i',$_POST['email'])) {
         $errmessage[] = "メールアドレスが不正です";
         $d = 4;
     }
@@ -209,7 +209,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                     var error = 1;
                     error_result.push('電話番号は0-9の数字のみでご入力ください');
                 }
-                if ($('#email').val() === '' || !$('#email').val() == /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}.[A-Za-z0-9]{1,}$/) {
+                if ($('#email').val() == '' || !$('#email').val().match(/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/)) {
                     var error = 1;
                     error_result.push('メールアドレスは正しくご入力ください');
                 }
@@ -222,7 +222,6 @@ if (isset($_POST['back']) && $_POST['back']) {
                     var error_result = error_result.join('\n');
                     alert(error_result);
                 }
-
             });
         });
     </script>
