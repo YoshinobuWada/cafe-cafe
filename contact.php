@@ -7,6 +7,7 @@ $b = null;
 $c = null;
 $d = null;
 $e = null;
+$message = '送信待機中';
 if (isset($_POST['back']) && $_POST['back']) {
 
 } else if (isset($_POST['confirm']) && $_POST['confirm']) {
@@ -38,7 +39,7 @@ if (isset($_POST['back']) && $_POST['back']) {
     if (!$_POST['email']) {
         $errmessage[] = "メールアドレスを入力してください";
         $d = 4;
-    } else if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/i',$_POST['email'])) {
+    } else if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/i', $_POST['email'])) {
         $errmessage[] = "メールアドレスが不正です";
         $d = 4;
     }
@@ -64,6 +65,8 @@ if (isset($_POST['back']) && $_POST['back']) {
     $_SESSION['dial'] = "";
     $_SESSION['email'] = "";
     $_SESSION['naiyou'] = "";
+    $pdo = new PDO('mysql:dbname=cafe; host=mysql;', 'root', 'root');
+    $pdo->query('SET NAMES utf8;');
 }
 ?>
 <!DOCTYPE html>
@@ -75,6 +78,11 @@ if (isset($_POST['back']) && $_POST['back']) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="toiawaseform.css">
     <title>お問い合わせフォーム</title>
+    <script>
+        ask = () => {
+            return confirm('本当に削除して宜しいですか？');
+        }
+    </script>
 </head>
 
 <body>
@@ -103,7 +111,8 @@ if (isset($_POST['back']) && $_POST['back']) {
                                 </p>
                             </dt>
                             <dd>
-                                <input type="text" name="name" id="name" placeholder="山田太郎" value="<?php echo $_SESSION['name'] ?>">
+                                <input type="text" name="name" id="name" placeholder="山田太郎"
+                                    value="<?php echo $_SESSION['name'] ?>">
                             </dd>
                             <dt>
                                 <label for="hurigana">フリガナ<span>*</span></label>
@@ -205,7 +214,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                     var error = 1;
                     error_result.push('フリガナは必須入力です。10文字以内でご入力ください。');
                 }
-                if ($('#dial').val() == [0-9]) {
+                if ($('#dial').val() == [0 - 9]) {
                     var error = 1;
                     error_result.push('電話番号は0-9の数字のみでご入力ください');
                 }

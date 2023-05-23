@@ -20,6 +20,9 @@ a:visited {
     color: inherit;
 }
 
+h3 span {
+    color: red;
+}
 
 p span {
     color: red;
@@ -32,6 +35,68 @@ label span{
 .error {
     color: red;
     font-weight: bold;
+}
+
+.title {
+    background-color: orange;
+    border-collapse: collapse;
+}
+
+.title th {
+    padding: 7px 9px;
+    border: 1px solid #ccc ;
+    font-weight: normal;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.id1 {
+    width: 5%;
+}
+
+.name1 {
+    width: 11%;
+}
+
+.hurigana1 {
+    width: 14%;
+}
+
+.dial1 {
+    width: 14%;
+}
+
+.email1 {
+    width: 15%;
+}
+
+.naiyou1 {
+    width: 31%;
+}
+
+.edit {
+    width: 6%;
+}
+
+.delete {
+    width: 6%;
+}
+
+#conf {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: blue;
+}
+
+table tr td{
+    padding: 7px 9px;
+    border: 1px solid #ccc ;
+    word-break: break-all;
 }
 
 header {
