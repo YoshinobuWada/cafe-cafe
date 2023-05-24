@@ -135,7 +135,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                                 </p>
                             </dt>
                             <dd>
-                                <input type="number" name="dial" id="dial" placeholder="09012345678"
+                                <input type="text" name="dial" id="dial" placeholder="09012345678"
                                     value="<?php echo $_SESSION['dial'] ?>">
                             </dd>
                             <dt>
@@ -214,7 +214,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                     var error = 1;
                     error_result.push('フリガナは必須入力です。10文字以内でご入力ください。');
                 }
-                if ($('#dial').val() == [0 - 9]) {
+                if (!$('#dial').val().match(/^([0-9])*$/)) {
                     var error = 1;
                     error_result.push('電話番号は0-9の数字のみでご入力ください');
                 }
