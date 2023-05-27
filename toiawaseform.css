@@ -55,38 +55,42 @@ table {
 }
 
 .id1 {
-    width: 5%;
+    min-width: 46px;
 }
 
 .name1 {
-    width: 11%;
+    min-width: 96px;
 }
 
 .hurigana1 {
-    width: 14%;
+    min-width: 119px;
 }
 
 .dial1 {
-    width: 14%;
+    min-width: 119px;
 }
 
 .email1 {
-    width: 15%;
+    min-width: 127px;
 }
 
 .naiyou1 {
-    width: 31%;
+    min-width: 267px;
 }
 
 .edit {
-    width: 6%;
+    min-width: 50px;
 }
 
 .delete {
-    width: 6%;
+    min-width: 50px;
 }
 
-#conf {
+.edit1 {
+    
+}
+
+.conf {
     border: none;
     background: none;
     cursor: pointer;
@@ -97,6 +101,12 @@ table tr td{
     padding: 7px 9px;
     border: 1px solid #ccc ;
     word-break: break-all;
+}
+
+.dbtable{
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: 15px 0 30px 0;
 }
 
 header {

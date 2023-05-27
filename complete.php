@@ -5,6 +5,24 @@ if (!strstr($referer, $url)) {
     header('Location: contact.php');
     exit;
 }
+try {
+    $pdo = new PDO('mysql:dbname=cafe;host=mysql', 'root', 'root');
+} catch (PDOException $eroor) {
+    echo "接続失敗：" . $eroor->getMessage();
+    die();
+}
+$count = $pdo->prepare('INSERT INTO contacts (name, kana, tel, email, body) VALUES (:name, :kana, :tel, :email, :body)');
+$count->bindValue(':name', $_SESSION['name'], PDO::PARAM_STR);
+$count->bindValue(':kana', $_SESSION['hurigana'], PDO::PARAM_STR);
+$count->bindValue(':tel', $_SESSION['dial'], PDO::PARAM_STR);
+$count->bindValue(':email', $_SESSION['email'], PDO::PARAM_STR);
+$count->bindValue(':body', $_SESSION['naiyou'], PDO::PARAM_STR);
+try{
+$count->execute();
+} catch (PDOException $eroor) {
+    echo "実行失敗：" . $eroor->getMessage();
+}
+unset($pdo);
 ?>
 <form action="contact.php" method="post">
     <div class="endtext">

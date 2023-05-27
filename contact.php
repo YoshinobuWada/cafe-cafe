@@ -8,6 +8,12 @@ $c = null;
 $d = null;
 $e = null;
 $message = '送信待機中';
+try {
+    $pdo = new PDO('mysql:dbname=cafe;host=mysql', 'root', 'root');
+} catch (PDOException $eroor) {
+    echo "接続失敗：" . $eroor->getMessage();
+    die();
+}
 if (isset($_POST['back']) && $_POST['back']) {
 
 } else if (isset($_POST['confirm']) && $_POST['confirm']) {
@@ -59,14 +65,60 @@ if (isset($_POST['back']) && $_POST['back']) {
     }
 } else if (isset($_POST['send']) && $_POST['send']) {
     $mode = 'send';
+} else if (isset($_POST['edit']) && $_POST['edit']) {
+    $mode = 'edit';
+    $_SESSION['edit'] = htmlspecialchars($_POST['edit']);
+    $stmt_edit = $pdo->prepare('SELECT * FROM contacts WHERE id = :id ');
+    $stmt_edit->bindParam(':id', $_POST['edit'], PDO::PARAM_INT);
+    $stmt_edit->execute();
+    $editid = $stmt_edit->fetch(PDO::FETCH_ASSOC);
+
+} else if (isset($_POST['update']) && $_POST['update']) {
+    if (!$_POST['name']) {
+        $errmessage[] = "名前を入力してください";
+
+    } else if (mb_strlen($_POST['name']) >= 10) {
+        $errmessage[] = "名前は10文字以内にしてください";
+    }
+    if (!$_POST['hurigana']) {
+        $errmessage[] = "フリガナを入力してください";
+    } else if (mb_strlen($_POST['name']) >= 10) {
+        $errmessage[] = "フリガナは10文字以内にしてください";
+    }
+    if (!ctype_digit($_POST['dial']) && !($_POST['dial']) == '') {
+        $errmessage[] = "電話番号が不正です";
+    }
+    if (!$_POST['email']) {
+        $errmessage[] = "メールアドレスを入力してください";
+    } else if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/i', $_POST['email'])) {
+        $errmessage[] = "メールアドレスが不正です";
+    }
+    if (!$_POST['naiyou']) {
+        $errmessage[] = "お問い合わせ内容を入力してください";
+    }
+
+    if ($errmessage) {
+        $mode = 'input';
+        $x = implode('\n', $errmessage);
+    } else {
+        $mode = 'update';
+    }
 } else {
     $_SESSION['name'] = "";
     $_SESSION['hurigana'] = "";
     $_SESSION['dial'] = "";
     $_SESSION['email'] = "";
     $_SESSION['naiyou'] = "";
-    $pdo = new PDO('mysql:dbname=cafe; host=mysql;', 'root', 'root');
-    $pdo->query('SET NAMES utf8;');
+    $_SESSION['name1'] = "";
+    $_SESSION['hurigana1'] = "";
+    $_SESSION['dial1'] = "";
+    $_SESSION['email1'] = "";
+    $_SESSION['naiyou1'] = "";
+}
+if (isset($_POST['baka']) && $_POST['baka']) {
+    $stdelete = $pdo->prepare('DELETE FROM contacts WHERE id = :id');
+    $stdelete->bindParam(':id', $_POST['baka'], PDO::PARAM_INT);
+    $fire = $stdelete->execute();
 }
 ?>
 <!DOCTYPE html>
@@ -78,11 +130,6 @@ if (isset($_POST['back']) && $_POST['back']) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="toiawaseform.css">
     <title>お問い合わせフォーム</title>
-    <script>
-        ask = () => {
-            return confirm('本当に削除して宜しいですか？');
-        }
-    </script>
 </head>
 
 <body>
@@ -112,7 +159,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dt>
                             <dd>
                                 <input type="text" name="name" id="name" placeholder="山田太郎"
-                                    value="<?php echo $_SESSION['name'] ?>">
+                                    value="<?php echo $_SESSION['name'] ?>" form="vali">
                             </dd>
                             <dt>
                                 <label for="hurigana">フリガナ<span>*</span></label>
@@ -124,7 +171,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dt>
                             <dd>
                                 <input type="text" name="hurigana" id="hurigana" placeholder="ヤマダタロウ"
-                                    value="<?php echo $_SESSION['hurigana'] ?>">
+                                    value="<?php echo $_SESSION['hurigana'] ?>" form="vali">
                             </dd>
                             <dt>
                                 <label for="dial">電話番号</label>
@@ -136,7 +183,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dt>
                             <dd>
                                 <input type="text" name="dial" id="dial" placeholder="09012345678"
-                                    value="<?php echo $_SESSION['dial'] ?>">
+                                    value="<?php echo $_SESSION['dial'] ?>" form="vali">
                             </dd>
                             <dt>
                                 <label for="email">メールアドレス<span>*</span></label>
@@ -148,7 +195,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                             </dt>
                             <dd>
                                 <input type="text" name="email" id="email" placeholder="test@test.co.jp"
-                                    value="<?php echo $_SESSION['email'] ?>">
+                                    value="<?php echo $_SESSION['email'] ?>" form="vali">
                             </dd>
                         </dl>
                     </div>
@@ -164,17 +211,56 @@ if (isset($_POST['back']) && $_POST['back']) {
                                 <textarea name="naiyou" id="naiyou"><?php echo $_SESSION['naiyou'] ?></textarea>
                             </dd>
                             <dd>
-                                <input type="submit" id="sosin01" name="confirm" value="送 信" />
+                                <input type="submit" id="sosin01" name="confirm" value="送 信" form="vali" />
                             </dd>
                         </dl>
+                    </div>
+                    <div class="dbtable">
+                        <?php
+                        $sql = 'SELECT id, name, kana, tel, email, body from contacts';
+                        $stmt = $pdo->query($sql);
+
+                        echo "<table>\n";
+                        echo "\t<tr class='title'>
+                        <th class='id1'>ID</th>
+                        <th class='name1'>名前</th>
+                        <th class='hurigana1'>フリガナ</th>
+                        <th class='dial1'>電話番号</th>
+                        <th class='email1'>メールアドレス</th>
+                        <th class='naiyou1'>お問い合わせ内容</th>
+                        <th class='edit'></th>
+                        <th class='delete'></th>
+                        </tr>\n";
+                        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $caosu = $result['id'];
+                            echo "\t<tr>\n";
+                            echo "\t\t<td>{$caosu}</td>\n";
+                            echo "\t\t<td>{$result['name']}</td>\n";
+                            echo "\t\t<td>{$result['kana']}</td>\n";
+                            echo "\t\t<td>{$result['tel']}</td>\n";
+                            echo "\t\t<td>{$result['email']}</td>\n";
+                            echo "\t\t<td>{$result['body']}</td>\n";
+                            echo "\t\t<td><button type='submit' name='edit' class='edit conf' value='$caosu'>編集</button></td>\n";
+                            echo "\t\t<td><button type='submit' name='baka' class='sakuzyo conf' value='$caosu'>削除</button></td>\n";
+                            echo "\t</tr>\n";
+                        }
+                        echo "</table>\n";
+                        unset($pdo);
+                        ?>
                     </div>
                 </form>
             <?php } else if ($mode == 'confirm') { ?>
                     <!-- 確認画面 -->
                 <?php include("confirm.php"); ?>
-            <?php } else { ?>
-                    <!-- 完了画面 -->
+            <?php } else if ($mode == 'send') { ?>
+                        <!-- 完了画面 -->
                 <?php include("complete.php"); ?>
+            <?php } else if ($mode == 'edit') { ?>
+                            <!-- 編集画面 -->
+                <?php include("edit.php"); ?>
+            <?php } else if ($mode == 'update') { ?>
+                                <!-- 編集完了画面 -->
+                <?php include("update.php"); ?>
             <?php } ?>
         </div>
     </div>
@@ -202,7 +288,7 @@ if (isset($_POST['back']) && $_POST['back']) {
                     $('.signinbox01').removeClass('signinbox02');
                 }
             });
-            $('#sosin01').click(function () {
+            $('#sosin01, #sosin02').click(function () {
                 var error;
                 var error_result = new Array();
 
@@ -230,6 +316,13 @@ if (isset($_POST['back']) && $_POST['back']) {
                 if (error) {
                     var error_result = error_result.join('\n');
                     alert(error_result);
+                }
+            });
+            $('.sakuzyo').on('click', function () {
+                if (!confirm('本当に削除しますか？')) {
+                    return false;
+                } else {
+
                 }
             });
         });
