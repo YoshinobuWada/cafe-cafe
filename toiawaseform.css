@@ -86,10 +86,6 @@ table {
     min-width: 50px;
 }
 
-.edit1 {
-    
-}
-
 .conf {
     border: none;
     background: none;
@@ -219,6 +215,18 @@ header h1 {
     padding: 8px 0;
     font-size: 1.2rem;
     border: 2px solid #066;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#sosin04 {
+    color: white;
+    background-color: rgb(215, 4, 102);
+    width: 48%;
+    padding: 8px 0;
+    font-size: 1.2rem;
+    border: 0;
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 15px;

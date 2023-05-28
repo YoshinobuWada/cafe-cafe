@@ -6,11 +6,6 @@ if (!strstr($referer, $url)) {
     exit;
 }
 try {
-    $pdo = new PDO('mysql:dbname=cafe;host=mysql', 'root', 'root', [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
-} catch (PDOException $e) {
-    exit($e->getMessage());
-}
-try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $pdo->beginTransaction();

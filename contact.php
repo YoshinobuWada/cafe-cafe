@@ -16,7 +16,7 @@ try {
 }
 if (isset($_POST['back']) && $_POST['back']) {
 
-} else if (isset($_POST['confirm']) && $_POST['confirm']) {
+} else if (isset($_POST['confirm']) && $_POST['confirm'] || (isset($_POST['update']) && $_POST['update'])) {
     if (!$_POST['name']) {
         $errmessage[] = "名前を入力してください";
         $a = 1;
@@ -25,7 +25,6 @@ if (isset($_POST['back']) && $_POST['back']) {
         $errmessage[] = "名前は10文字以内にしてください";
         $a = 1;
     }
-    $_SESSION['name'] = htmlspecialchars($_POST['name'], ENT_QUOTES);
 
     if (!$_POST['hurigana']) {
         $errmessage[] = "フリガナを入力してください";
@@ -34,13 +33,14 @@ if (isset($_POST['back']) && $_POST['back']) {
         $errmessage[] = "フリガナは10文字以内にしてください";
         $b = 2;
     }
-    $_SESSION['hurigana'] = htmlspecialchars($_POST['hurigana'], ENT_QUOTES);
 
     if (!ctype_digit($_POST['dial']) && !($_POST['dial']) == '') {
         $errmessage[] = "電話番号が不正です";
         $c = 3;
+    } else if(mb_strlen($_POST['dial']) >= 12){
+        $errmessage[] = "電話番号が不正です";
+        $c = 3;
     }
-    $_SESSION['dial'] = htmlspecialchars($_POST['dial'], ENT_QUOTES);
 
     if (!$_POST['email']) {
         $errmessage[] = "メールアドレスを入力してください";
@@ -49,19 +49,37 @@ if (isset($_POST['back']) && $_POST['back']) {
         $errmessage[] = "メールアドレスが不正です";
         $d = 4;
     }
-    $_SESSION['email'] = htmlspecialchars($_POST['email'], ENT_QUOTES);
 
     if (!$_POST['naiyou']) {
         $errmessage[] = "お問い合わせ内容を入力してください";
         $e = 5;
     }
-    $_SESSION['naiyou'] = htmlspecialchars($_POST['naiyou'], ENT_QUOTES);
 
-    if ($errmessage) {
-        $mode = 'input';
-        $x = implode('\n', $errmessage);
-    } else {
+    if(isset($_POST['confirm']) && $_POST['confirm']){
+        $_SESSION['name'] = htmlspecialchars($_POST['name'], ENT_QUOTES);
+        $_SESSION['hurigana'] = htmlspecialchars($_POST['hurigana'], ENT_QUOTES);
+        $_SESSION['dial'] = htmlspecialchars($_POST['dial'], ENT_QUOTES);
+        $_SESSION['email'] = htmlspecialchars($_POST['email'], ENT_QUOTES);
+        $_SESSION['naiyou'] = htmlspecialchars($_POST['naiyou'], ENT_QUOTES);
+        if ($errmessage) {
+            $mode = 'input';
+            $x = implode('\n', $errmessage);
+        } else {
         $mode = 'confirm';
+        }
+    } 
+    else if(isset($_POST['update']) && $_POST['update']){
+        $_SESSION['name1'] = htmlspecialchars($_POST['name'], ENT_QUOTES);
+        $_SESSION['hurigana1'] = htmlspecialchars($_POST['hurigana'], ENT_QUOTES);
+        $_SESSION['dial1'] = htmlspecialchars($_POST['dial'], ENT_QUOTES);
+        $_SESSION['email1'] = htmlspecialchars($_POST['email'], ENT_QUOTES);
+        $_SESSION['naiyou1'] = htmlspecialchars($_POST['naiyou'], ENT_QUOTES);
+        if ($errmessage) {
+            $mode = 'edit';
+            $x = implode('\n', $errmessage);
+        } else {
+        $mode = 'update';
+        }
     }
 } else if (isset($_POST['send']) && $_POST['send']) {
     $mode = 'send';
@@ -72,37 +90,11 @@ if (isset($_POST['back']) && $_POST['back']) {
     $stmt_edit->bindParam(':id', $_POST['edit'], PDO::PARAM_INT);
     $stmt_edit->execute();
     $editid = $stmt_edit->fetch(PDO::FETCH_ASSOC);
-
-} else if (isset($_POST['update']) && $_POST['update']) {
-    if (!$_POST['name']) {
-        $errmessage[] = "名前を入力してください";
-
-    } else if (mb_strlen($_POST['name']) >= 10) {
-        $errmessage[] = "名前は10文字以内にしてください";
-    }
-    if (!$_POST['hurigana']) {
-        $errmessage[] = "フリガナを入力してください";
-    } else if (mb_strlen($_POST['name']) >= 10) {
-        $errmessage[] = "フリガナは10文字以内にしてください";
-    }
-    if (!ctype_digit($_POST['dial']) && !($_POST['dial']) == '') {
-        $errmessage[] = "電話番号が不正です";
-    }
-    if (!$_POST['email']) {
-        $errmessage[] = "メールアドレスを入力してください";
-    } else if (!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/i', $_POST['email'])) {
-        $errmessage[] = "メールアドレスが不正です";
-    }
-    if (!$_POST['naiyou']) {
-        $errmessage[] = "お問い合わせ内容を入力してください";
-    }
-
-    if ($errmessage) {
-        $mode = 'input';
-        $x = implode('\n', $errmessage);
-    } else {
-        $mode = 'update';
-    }
+    $_SESSION['name1'] = htmlspecialchars($editid['name'], ENT_QUOTES);
+    $_SESSION['hurigana1'] = htmlspecialchars($editid['kana'], ENT_QUOTES);
+    $_SESSION['dial1'] = htmlspecialchars($editid['tel'], ENT_QUOTES);
+    $_SESSION['email1'] = htmlspecialchars($editid['email'], ENT_QUOTES);
+    $_SESSION['naiyou1'] = htmlspecialchars($editid['body'], ENT_QUOTES);
 } else {
     $_SESSION['name'] = "";
     $_SESSION['hurigana'] = "";
@@ -114,6 +106,7 @@ if (isset($_POST['back']) && $_POST['back']) {
     $_SESSION['dial1'] = "";
     $_SESSION['email1'] = "";
     $_SESSION['naiyou1'] = "";
+    $mode = 'input';
 }
 if (isset($_POST['baka']) && $_POST['baka']) {
     $stdelete = $pdo->prepare('DELETE FROM contacts WHERE id = :id');
@@ -177,7 +170,7 @@ if (isset($_POST['baka']) && $_POST['baka']) {
                                 <label for="dial">電話番号</label>
                                 <p class="error">
                                     <?php if ($c == 3) {
-                                        echo "電話番号は0-9の数字のみでご入力ください";
+                                        echo "電話番号は11字以内の0-9の数字のみでご入力ください";
                                     } ?>
                                 </p>
                             </dt>
@@ -261,8 +254,9 @@ if (isset($_POST['baka']) && $_POST['baka']) {
             <?php } else if ($mode == 'update') { ?>
                                 <!-- 編集完了画面 -->
                 <?php include("update.php"); ?>
-            <?php } ?>
+            <?php } ;?>
         </div>
+        
     </div>
     <?php include("footer.php"); ?>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -300,9 +294,9 @@ if (isset($_POST['baka']) && $_POST['baka']) {
                     var error = 1;
                     error_result.push('フリガナは必須入力です。10文字以内でご入力ください。');
                 }
-                if (!$('#dial').val().match(/^([0-9])*$/)) {
+                if (!$('#dial').val().match(/^([0-9])*$/) || $('#dial').val().length >= 10) {
                     var error = 1;
-                    error_result.push('電話番号は0-9の数字のみでご入力ください');
+                    error_result.push('電話番号は11字以内の0-9の数字のみでご入力ください');
                 }
                 if ($('#email').val() == '' || !$('#email').val().match(/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/)) {
                     var error = 1;
