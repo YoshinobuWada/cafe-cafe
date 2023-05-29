@@ -5,7 +5,7 @@ if (!strstr($referer, $url)) {
     header('Location: contact.php');
     exit;
 }
-try {
+try { 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $pdo->beginTransaction();
